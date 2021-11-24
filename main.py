@@ -7,9 +7,8 @@ if __name__ == '__main__':
 
     answer = input("Вы хотите получить данные(get) из базы или загрузить данные(load)? ")
 
-    if answer == 'load':
-        artist_id = input("Введите id артиста: ")
-
+    def load_data_in_base(artist_id):
+        
         info_loader = yamusic.YaMusic(artist_id)
 
         result_main_file, artist_name, genres = info_loader.get_artist_info()
@@ -28,34 +27,50 @@ if __name__ == '__main__':
         sql_uploader = sqluploader.SqlUpolader(database, user, password, artist_id, artist_name)
 
         table_artist_tuples = sql_uploader.upload_table_artist()
-        # pprint('*****************')
-        # pprint(table_artist_tuples)
+        pprint('*****************')
+        pprint(table_artist_tuples)
         
         table_artist_genre = sql_uploader.upload_table_artist_genre(genres, table_artist_tuples)
-        # pprint('*****************')
-        # pprint(table_artist_genre)
+        pprint('*****************')
+        pprint(table_artist_genre)
 
         album = sql_uploader.upload_table_album(album_info)
-        # pprint('*****************')
-        # pprint(album)
+        pprint('*****************')
+        pprint(album)
         
         table_artist_album = sql_uploader.upload_table_artist_album(table_artist_tuples, album)
-        # pprint('*****************')
-        # pprint(table_artist_album)
+        pprint('*****************')
+        pprint(table_artist_album)
 
         table_track_tupels = sql_uploader.upload_table_track(album_playlist, album)
-        # pprint('*****************')
-        # pprint(table_track_tupels)
+        pprint('*****************')
+        pprint(table_track_tupels)
 
         compilation = sql_uploader.upload_table_compilation(compilation_info)
-        # pprint('*****************')
-        # pprint(compilation)
+        pprint('*****************')
+        pprint(compilation)
 
         compilation_list = sql_uploader.get_track_from_compilation(compilation_playlist, compilation)
 
         track_compilation_tuples = sql_uploader.upload_table_track_compilation(table_track_tupels, compilation_list)
-        # pprint('*****************')
-        # pprint(track_compilation_tuples)
+        pprint('*****************')
+        pprint(track_compilation_tuples)
+
+    if answer == 'load':
+        data_load = input("Загрузить начальные данные у пустую базу(1) или дозагрузить данные по конкретному исполнителю(2)? ")      
+
+        if data_load == '1':
+            artist_id_list = []
+            artist_id_list = ['972', '680', '118884' '79215', '3989', '443']
+            for id in artist_id_list:
+                artist_id = id
+                load_data_in_base(artist_id)
+
+        elif data_load == '2':
+            artist_id = input("Введите id артиста: ")
+            load_data_in_base(artist_id)
+        
+        
 
     elif answer == 'get':
         

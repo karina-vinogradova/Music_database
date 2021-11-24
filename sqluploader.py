@@ -36,8 +36,8 @@ class SqlUpolader():
 
     def upload_table_artist_genre(self, genres, table_artist_tuples):
         table_genre_tuples = self.upload_table_genre(genres)
-        # pprint("******************")
-        # pprint(table_genre_tuples)
+        pprint("******************")
+        pprint(table_genre_tuples)
 
 
         for i in table_genre_tuples:
