@@ -24,10 +24,22 @@ class SqlUpolader():
     def upload_table_genre(self, genres):
         count = 0
         for genre in genres:
-            self.connection.execute(f"""INSERT INTO genre(id, name) 
-           VALUES(DEFAULT, '{genre}');
-        """)
-            count += 1
+            unique_genre = self.connection.execute(f"""
+            SELECT name FROM genre
+            WHERE name LIKE '%%{genre}%%';
+        """).fetchall()
+            if len(unique_genre) == 0:
+                self.connection.execute(f"""INSERT INTO genre(id, name) 
+                VALUES(DEFAULT, '{genre}');
+                """)
+                count += 1
+            elif len(unique_genre) != 0:
+                for i in unique_genre:
+                    if i[0] != genre:
+                        self.connection.execute(f"""INSERT INTO genre(id, name) 
+                VALUES(DEFAULT, '{genre}');
+                """)
+                count += 1
 
         sel = self.connection.execute("""SELECT * FROM genre;
         """).fetchall()
@@ -104,13 +116,20 @@ class SqlUpolader():
 
     def upload_table_compilation(self, compilation_info):
         count = 0
+        
         for i in compilation_info:
             year_of_release = i[2]
             album_title = i[1].replace('\'', '`')
-            self.connection.execute(f"""INSERT INTO compilation(id, name, year_of_release) 
-        VALUES(DEFAULT, '{album_title}', {year_of_release});
-        """)
-            count += 1
+            unique_compilation = self.connection.execute(f"""
+            SELECT name FROM compilation
+            WHERE name LIKE '%%{album_title}%%';
+        """).fetchall()
+            if len(unique_compilation) == 0:
+                self.connection.execute(f"""INSERT INTO compilation(id, name, year_of_release) 
+                VALUES(DEFAULT, '{album_title}', {year_of_release});
+                """)
+                count += 1
+            
         
         sel = self.connection.execute("""SELECT * FROM compilation;
         """).fetchall()
@@ -198,6 +217,14 @@ class SqlUpolader():
         result = self.connection.execute("""
         SELECT name FROM track
         WHERE name LIKE '%%ill%%'
+        """).fetchall()
+
+        return result
+
+
+    def get_get_other_data_for_test(self):
+        result = self.connection.execute("""
+        SELECT * FROM artist_genre
         """).fetchall()
 
         return result
