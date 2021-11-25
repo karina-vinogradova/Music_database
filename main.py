@@ -80,23 +80,23 @@ if __name__ == '__main__':
 
         sql_uploader = sqluploader.SqlUpolader(database, user, password)
 
-        # album_release = sql_uploader.get_album_release()
-        # pprint(album_release)
+        album_release = sql_uploader.get_album_release()
+        pprint(album_release)
 
-        # track_timing = sql_uploader.get_the_longest_track()
-        # pprint(track_timing)
+        track_timing = sql_uploader.get_the_longest_track()
+        pprint(track_timing)
 
-        # certain_timing = sql_uploader.get_certain_timing()
-        # pprint(certain_timing)
+        certain_timing = sql_uploader.get_certain_timing()
+        pprint(certain_timing)
 
-        # certain_compilation = sql_uploader.get_certain_compilation()
-        # pprint(certain_compilation)
+        certain_compilation = sql_uploader.get_certain_compilation()
+        pprint(certain_compilation)
 
-        # one_words_name = sql_uploader.get_one_words_name()
-        # pprint(one_words_name)
+        one_words_name = sql_uploader.get_one_words_name()
+        pprint(one_words_name)
 
-        # contains_slice = sql_uploader.get_contains_slice()
-        # pprint(contains_slice)
+        contains_slice = sql_uploader.get_contains_slice()
+        pprint(contains_slice)
 
         # result = sql_uploader.get_other_data_for_test()
         # pprint(result)
